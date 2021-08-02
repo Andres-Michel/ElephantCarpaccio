@@ -11,6 +11,26 @@ class Billing
     
     end  
 
+    def get_quant
+        @quant
+    end
+
+    def get_uprice
+        @uprice
+    end
+
+
+    def get_state
+        @state
+    end
+
+    def get_disc
+        
+        TAXES[@state]
+    
+    end
+
+
     def price
 
         @quant * @uprice
@@ -57,7 +77,7 @@ class Billing
 
     def total
 
-        self.price + self.taxesC - self.discount
+        self.price + self.taxesC - ((self.price * self.discount)/100)
 
     end
 
@@ -70,8 +90,8 @@ class Billing
 end  
 
   bill = Billing.new(ARGV[0], ARGV[1], ARGV[2])  
- 
-  a = bill.total
 
-  puts "Parcial #{a}"
-
+  puts "# #{bill.get_quant} * #{bill.get_uprice} = #{bill.price}"
+  puts "#{bill.get_state} (#{bill.get_disc}) = $#{bill.taxesC}" 
+  puts "DTO(#{bill.discount}%) = $#{(bill.price * bill.discount)/100}"
+  puts "Total =  $#{bill.total}"
