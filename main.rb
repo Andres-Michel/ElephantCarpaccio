@@ -2,36 +2,37 @@
 class Billing  
 
     TAXES = {"UT" => "6.85%", "NV" => "8.00%", "TX" => "6.25%", "AL" => "4.00%", "CA" => "8.25%"}
-
-
-    
+  
     def initialize(quant, uprice, state)  
         
-      @quant = quant  
-      @uprice = uprice  
+      @quant = quant.to_i 
+      @uprice = uprice.to_i 
       @state = state 
+    
     end  
 
     def price
 
         @quant * @uprice
-        #puts "Partial #{@quant * @uprice}"
+        
+    end
+
+
+    def taxesC
+
+        string = TAXES[@state]
+        taxS = string.sub "%", ""
+        tax= taxS.to_f
+        
+        price = self.price
+
+        res = (price * tax)/100
 
     end
 
-    def percentcalc(perc)
+    def discount 
 
-        res = (self.price * perc)/100
-
-        puts "#{@state} #{res}"
-
-    end
-
-    def discount (tdisc)
-
-        puts "#{tdisc}"
-
-        case tdisc
+        case self.price
         when (0..999.99) then
             disc = 0
         when (1000..4999.99) then
@@ -45,28 +46,32 @@ class Billing
         end
 
         case
-        when tdisc >= 50000
+        when self.price >= 50000
             disc = 15
         end
 
-
-        puts "#{disc}"
-
+        disc
+        
     end
 
 
     def total
 
-        puts "#{TAXES[@state]}"
+        self.price + self.taxesC - self.discount
 
     end
 
+    def show
 
+        puts "#{@quant +1}"
+
+    end
 
 end  
 
+  bill = Billing.new(ARGV[0], ARGV[1], ARGV[2])  
+ 
+  a = bill.total
 
-  bill = Billing.new(5, 10, 'AL')  
-  bill.percentcalc(4)
-  bill.total
-  bill.discount(50000)
+  puts "Parcial #{a}"
+
