@@ -1,13 +1,21 @@
-class Facturacion
+ 
+class Billing  
+ 
+    
+    def initialize(quant, uprice, state)  
+        
+      @quant = quant  
+      @uprice = uprice  
+      @state = state 
+    end  
 
-    def  initialize(lang)
-        @lang = lang
-    end 
+    def show
+        puts "asd #{@quant+1}"
+    end
 
+end  
+   
+  bill = Billing.new(5, '10', 'AL')  
 
-
-
-end
-
-
-factu = Facturacion.new ARGV[0] ARGV[1] ARGV[2]
+  bill.show
+  
